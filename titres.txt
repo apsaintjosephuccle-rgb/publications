@@ -1,0 +1,3 @@
+   le-lien-01 = Le Lien n°1 – Octobre 2026
+   issue-1 = Newsletter n°1 – Septembre 2025
+   issue-2 = Newsletter n°2 – Décembre 2025
