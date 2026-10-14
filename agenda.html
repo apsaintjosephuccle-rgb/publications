@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agenda de l'AP – École Saint-Joseph Uccle</title>
+<meta name="description" content="Les prochains rendez-vous de l'Association des Parents de l'École Saint-Joseph Uccle.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="École Saint-Joseph Uccle">
+<meta property="og:title" content="Agenda de l'AP Saint-Joseph">
+<meta property="og:description" content="Les prochains rendez-vous de l'Association des Parents.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ===== Couleurs de l'AP : modifiez ici si besoin ===== */
+:root{
+  --navy:#0C2F56;
+  --teal:#009482;
+  --teal-soft:#E3F3F0;
+  --bg:#F5F7F9;
+  --card:#FFFFFF;
+  --text:#1C2633;
+  --muted:#5B6878;
+  --line:#E2E7EC;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:17px/1.5 'Source Sans 3',system-ui,-apple-system,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:720px;margin:0 auto;padding:28px 16px 40px}
+
+header{margin-bottom:26px}
+.kicker{font:700 12px/1 Montserrat,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin:0 0 10px}
+h1{font:800 clamp(28px,6vw,38px)/1.1 Montserrat,sans-serif;color:var(--navy);margin:0}
+.swoosh{display:block;width:72px;height:6px;border-radius:6px;background:var(--teal);margin-top:14px}
+
+h2{font:700 13px/1 Montserrat,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:34px 0 14px;display:flex;align-items:center;gap:12px}
+h2::after{content:"";flex:1;height:1px;background:var(--line)}
+
+.list{display:flex;flex-direction:column;gap:12px}
+.ev{display:flex;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;align-items:flex-start}
+.date{flex:none;width:68px;border-radius:10px;background:var(--navy);color:#fff;text-align:center;padding:9px 4px 8px}
+.date .wd{display:block;font:600 11px/1 Montserrat,sans-serif;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
+.date .d{display:block;font:800 28px/1.1 Montserrat,sans-serif;margin:4px 0 2px}
+.date .m{display:block;font:700 12px/1 Montserrat,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#7FE0D1}
+.date .y{display:block;font:600 10px/1 Montserrat,sans-serif;opacity:.65;margin-top:4px}
+.body{min-width:0;flex:1}
+.title{font:700 18px/1.25 Montserrat,sans-serif;color:var(--navy);margin:2px 0 6px}
+.meta{display:flex;flex-wrap:wrap;gap:4px 14px;color:var(--muted);font-size:15px;margin:0}
+.meta span{display:inline-flex;align-items:center;gap:6px}
+.meta svg{width:15px;height:15px;flex:none;stroke:var(--teal)}
+.tbc{font-style:italic}
+.desc{margin:8px 0 0;font-size:16px}
+.badge{display:inline-block;font:700 11px/1 Montserrat,sans-serif;letter-spacing:.08em;text-transform:uppercase;background:var(--teal);color:#fff;border-radius:20px;padding:5px 9px 4px;margin-bottom:8px}
+
+/* Prochain événement mis en avant */
+.ev.next{border:2px solid var(--teal);box-shadow:0 6px 20px rgba(12,47,86,.08)}
+.ev.next .date{width:76px}
+
+/* Événements passés : plus discrets */
+.past .ev{background:transparent}
+.past .date{background:#DDE3EA;color:var(--navy)}
+.past .date .m{color:var(--teal)}
+.past .title{font-size:16px}
+.read{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font:700 14px/1 Montserrat,sans-serif;color:var(--teal);text-decoration:none;padding:8px 12px;border-radius:8px;background:var(--teal-soft)}
+.read:hover,.read:focus-visible{background:#CDEBE5;outline:none}
+
+.empty{background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:18px;color:var(--muted);margin:0}
+footer{margin-top:36px;color:var(--muted);font-size:14px;text-align:center}
+footer a{color:var(--navy)}
+
+@media (max-width:420px){
+  .ev{gap:12px;padding:14px}
+  .date{width:58px}
+  .ev.next .date{width:62px}
+  .date .d{font-size:24px}
+  .title{font-size:17px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="kicker">Association des Parents · Saint-Joseph</p>
+    <h1>Agenda de l'AP</h1>
+    <span class="swoosh" aria-hidden="true"></span>
+  </header>
+
+  <main id="agenda" aria-live="polite">
+    <p class="empty">Chargement de l'agenda…</p>
+  </main>
+
+  <footer>
+    Une question ? <a href="mailto:apsjuccle@gmail.com">apsjuccle@gmail.com</a>
+  </footer>
+</div>
+
+<script>
+/* Les dates se trouvent dans agenda.txt (à côté de ce fichier).
+   Pour ajouter ou changer un événement, modifiez seulement agenda.txt. */
+(async function(){
+  const box = document.getElementById('agenda');
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const icoClock = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+  const icoPin = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
+
+  let text;
+  try {
+    const r = await fetch('agenda.txt', {cache:'no-cache'});
+    if (!r.ok) throw new Error(r.status);
+    text = await r.text();
+  } catch (e) {
+    box.innerHTML = '<p class="empty">L\'agenda n\'a pas pu être chargé. Réessayez dans un instant.</p>';
+    return;
+  }
+
+  // Lire les lignes de agenda.txt
+  const events = [];
+  for (const raw of text.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line || line.startsWith('#')) continue;
+    const p = line.split('|').map(s => s.trim());
+    const m = /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(p[0] || '');
+    if (!m || !p[2]) { console.warn('Ligne ignorée dans agenda.txt :', line); continue; }
+    events.push({
+      date: new Date(+m[1], +m[2] - 1, +m[3]),
+      time: p[1] || '', title: p[2], place: p[3] || '', desc: p[4] || '',
+      issue: (p[5] || '').replace(/\.pdf$/i, '').toLowerCase()
+    });
+  }
+
+  const today = new Date(); today.setHours(0,0,0,0);
+  const upcoming = events.filter(e => e.date >= today).sort((a,b) => a.date - b.date);
+  const past = events.filter(e => e.date < today).sort((a,b) => b.date - a.date);
+
+  const fmt = (d, o) => new Intl.DateTimeFormat('fr-BE', o).format(d).replace('.', '');
+  function card(e, opts){
+    const sameYear = e.date.getFullYear() === today.getFullYear();
+    const isToday = +e.date === +today;
+    const tbc = /confirmer/i.test(e.time);
+    const meta = [];
+    if (e.time) meta.push('<span class="' + (tbc ? 'tbc' : '') + '">' + icoClock + esc(e.time) + '</span>');
+    if (e.place) meta.push('<span>' + icoPin + esc(e.place) + '</span>');
+    const label = fmt(e.date, {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+    return '<article class="ev' + (opts.next ? ' next' : '') + '">' +
+      '<div class="date" aria-label="' + esc(label) + '">' +
+        '<span class="wd">' + esc(fmt(e.date, {weekday:'short'})) + '</span>' +
+        '<span class="d">' + e.date.getDate() + '</span>' +
+        '<span class="m">' + esc(fmt(e.date, {month:'short'})) + '</span>' +
+        (sameYear ? '' : '<span class="y">' + e.date.getFullYear() + '</span>') +
+      '</div>' +
+      '<div class="body">' +
+        (opts.next ? '<span class="badge">' + (isToday ? "Aujourd'hui" : 'Prochain rendez-vous') + '</span>' : '') +
+        '<h3 class="title">' + esc(e.title) + '</h3>' +
+        (meta.length ? '<p class="meta">' + meta.join('') + '</p>' : '') +
+        (e.desc ? '<p class="desc">' + esc(e.desc) + '</p>' : '') +
+        (opts.past && e.issue ? '<a class="read" href="' + encodeURIComponent(e.issue) + '/?src=agenda" target="_blank" rel="noopener">Lire dans Le Lien →</a>' : '') +
+      '</div></article>';
+  }
+
+  let html = '<h2>À venir</h2>';
+  html += upcoming.length
+    ? '<div class="list">' + upcoming.map((e, i) => card(e, {next: i === 0})).join('') + '</div>'
+    : '<p class="empty">Les prochaines dates arrivent bientôt !</p>';
+  if (past.length) {
+    html += '<h2>Événements passés</h2><div class="list past">' + past.map(e => card(e, {past: true})).join('') + '</div>';
+  }
+  box.innerHTML = html;
+})();
+</script>
+
+<!-- Statistiques (GoatCounter), comme pour les publications -->
+<script>window.goatcounter = { allow_frame: true };</script>
+<script data-goatcounter="https://apsaintjosephuccle.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
